@@ -1,0 +1,17 @@
+def printsudoku():
+  for row in range(len(sudoku)):
+    print (sudoku[row])
+  print()
+
+
+sudoku=[[0,1,3,0],[2,0,0,0],[0,0,0,3],[0,2,1,0]]   #just an example sudoku for now that im using before i get the user toinput their
+printsudoku()
+
+for y in range(0,len(sudoku)):
+  if sudoku[y][0]==0:
+    sudoku[y][0]=1
+    for x in range(1,len(sudoku)):
+      if sudoku[y][x]==1:
+        sudoku[y][0]=2
+
+printsudoku()
