@@ -1,8 +1,12 @@
 import tkinter as tk
 from tkinter import *
 
+def RaiseFrame(frame):
+    frame.tkraise()
+
+    '''
 def SolveSudoku():
-    wholesudoku.tkraise()
+    mainframe.root.withdraw()
 
 def SelectedCell():
     selectedframe.tkraise()
@@ -12,28 +16,25 @@ def RandomCells():
 
 def MainMenu():
     mainframe.tkraise()
-
-
+    '''
 
 root = Tk()
 root.geometry("800x500")
 root.title("Sudoku Solver")
 root.resizable(False, False)
 root.configure(background="Light Blue")
-
-
-
-mainframe= Frame(root, background="Light Blue")
+        
+mainframe = Frame(root, background="Light Blue")
 mainframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
 
 class MenuPage():
-    wholesudoku_button = Button(mainframe, text="Solve Whole Sudoku", width=20, command=SolveSudoku)
+    wholesudoku_button = Button(mainframe, text="Solve Whole Sudoku", width=20, command=lambda:RaiseFrame(wholesudoku))
     wholesudoku_button.grid(row=1, column=1, pady=30)
     
-    selectedcell_button = Button(mainframe, text="Solve A Selected Cell", width=20, command=SelectedCell)
+    selectedcell_button = Button(mainframe, text="Solve A Selected Cell", width=20) #, command=SelectedCell)
     selectedcell_button.grid(row=2, column=1, pady=30)
 
-    randomcell_button = Button(mainframe, text="Solve Random Cells", width=20, command=RandomCells)
+    randomcell_button = Button(mainframe, text="Solve Random Cells", width=20)#, command=RandomCells)
     randomcell_button.grid(row=3, column=1, pady=30)
 
     title = Text(mainframe, relief = "flat", background = "Light Blue", width = 35, height = 2)
@@ -57,40 +58,20 @@ class MenuPage():
 
 
 wholesudoku= Frame(root, background="Light Blue")
-wholesudoku.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
+wholesudoku.grid(row=5, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
 
 class SudokuPage():
     
     title = Text(wholesudoku, relief = "flat", background = "Light Blue", width = 35, height = 2)
-    title.grid(row=0, column=1, columnspan=5)
-    title.insert(0.0, "Sudoku Solver")
+    title.grid(row=0, column=1, columnspan=5, rowspan=3)
+    title.insert(0.0, "Whole Sudoku Solver")
     title.config(font=("Ariel", 30))
     
-    random_text = Text(wholesudoku, relief = "flat", font = "Ariel", background = "Light Blue", width = 35, height = 3, wrap = WORD)
-    random_text.grid(row=3, column=6, padx=100)
-    random_text.insert(0.0, "Please")
+    mainmenu_button = Button(wholesudoku, text="Main Menu", width=20, command=lambda:RaiseFrame(mainframe))
+    mainmenu_button.grid(row=7, column=5, pady=300)
 
-    mainmenu_button = Button(wholesudoku, text="Main Menu", width=20, command=MainMenu)
-    mainmenu_button.grid(row=6, column=6, pady=30)
-
-    c = Canvas(wholesudoku, background="White", width='300', height='300')
-    c.grid(column=0, row=2, columnspan=3)
-    rects = [[None for x in range(9)] for y in range(9)]
-    handles = [[None for x in range(9)] for y in range(9)]
-    rsize = 300/9
-    guidesize = 300/3
-    for y in range(9):
-        for x in range(9):
-            (xr, yr) = (x*guidesize, y*guidesize)
-            rects[y][x] = c.create_rectangle(xr, yr, xr+guidesize, yr+guidesize, width=3)
-            (xr, yr) = (x*rsize, y*rsize)
-            r = c.create_rectangle(xr, yr, xr+rsize, yr+rsize)
-            t = c.create_text(xr+rsize/2, yr+rsize/2)
-            handles[y][x] = (r, t)
-    canvas = c
-
-    
 '''
+
 
 selectedframe= Frame(root, background="Light Blue")
 selectedframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
@@ -99,6 +80,9 @@ class SudokuPage():
     random_text = Text(selectedframe, relief = "flat", font = "Ariel", background = "Blue", width = 35, height = 3, wrap = WORD)
     random_text.grid(row=3, column=3, padx=100)
     random_text.insert(0.0, "Choose this option if you would like to select a number of random cells to be solved")
+
+    mainmenu_button = Button(selectedframe, text="Main Menu", width=20, command=MainMenu)
+    mainmenu_button.grid(row=6, column=6, pady=30)
 
 
 
@@ -112,6 +96,9 @@ class RandomPage():
     random_text = Text(randomframe, relief = "flat", font = "Ariel", background = "Green", width = 35, height = 3, wrap = WORD)
     random_text.grid(row=3, column=3, padx=100)
     random_text.insert(0.0, "Choose this option if you would like to select a number of random cells to be solved")
+
+    mainmenu_button = Button(randomframe, text="Main Menu", width=20, command=MainMenu)
+    mainmenu_button.grid(row=6, column=6, pady=30)
 
 '''
 
