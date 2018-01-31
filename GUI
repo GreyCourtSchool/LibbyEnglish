@@ -7,8 +7,12 @@ def RaiseFrame(frame):
 root = Tk()
 root.geometry("800x500")
 root.title("Sudoku Solver")
-root.resizable(False, False)
+root.resizable(True, False)
 root.configure(background="Light Blue")
+
+
+
+
 
 
    
@@ -25,19 +29,12 @@ class MenuPage():
     randomcell_button = Button(mainframe, text="Solve Random Cells", width=20, command=lambda:RaiseFrame(randomframe))
     randomcell_button.grid(row=3, column=1, pady=30)
 
-    title = Label(mainframe, text = "Sudoku Solver",font=("Ariel", 30),relief = "flat", background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=20)
-    #title.grid(row=0, column=1, columnspan=20)
-    #title.insert(0.0, "Sudoku Solver")
-    #title.config(font=("Ariel", 30))
+    title = Label(mainframe, text = "Sudoku Solver", font=("Ariel", 30),relief = "flat", background = "Light Blue", width = 35, height = 2).grid(row=0, column=0, columnspan=20)
 
-    whole_text = Text(mainframe, relief = "flat", font = "Ariel", background = "Light Blue", width = 35, height = 3, wrap = WORD)
-    whole_text.grid(row=1, column=3)
-    whole_text.insert(0.0, "Choose this option if you would like your sudoku to be solved and all the cells to be filled")
+    whole_text = Label(mainframe, text= "Choose this option if you would like your sudoku to be solved and all the cells to be filled", relief = "flat", font = "Ariel", background = "Light Blue", width = 35, wraplength=325).grid(row=1, column=3)
 
-    select_text = Text(mainframe, font = "Ariel", relief = "flat" , background = "Light Blue", width = 35, height = 3, wrap = WORD)
-    select_text.grid(row=2, column=3, padx=100)
-    select_text.insert(0.0, "Choose this option if you would like to pick a cell of the sudoku to be solved")
-
+    select_text = Label(mainframe, text= "Choose this option if you would like to pick a cell of the sudoku to be solved", font = "Ariel", relief = "flat" , background = "Light Blue", width = 35, height = 3, wraplength=325).grid(row=2, column=3, padx=100)
+    
     random_text = Text(mainframe, relief = "flat", font = "Ariel", background = "Light Blue", width = 35, height = 3, wrap = WORD)
     random_text.grid(row=3, column=3, padx=100)
     random_text.insert(0.0, "Choose this option if you would like to select a number of random cells to be solved")
