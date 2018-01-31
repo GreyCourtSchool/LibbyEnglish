@@ -25,10 +25,10 @@ class MenuPage():
     randomcell_button = Button(mainframe, text="Solve Random Cells", width=20, command=lambda:RaiseFrame(randomframe))
     randomcell_button.grid(row=3, column=1, pady=30)
 
-    title = Text(mainframe, relief = "flat", background = "Light Blue", width = 35, height = 2)
-    title.grid(row=0, column=1, columnspan=20)
-    title.insert(0.0, "Sudoku Solver")
-    title.config(font=("Ariel", 30))
+    title = Label(mainframe, text = "Sudoku Solver",font=("Ariel", 30),relief = "flat", background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=20)
+    #title.grid(row=0, column=1, columnspan=20)
+    #title.insert(0.0, "Sudoku Solver")
+    #title.config(font=("Ariel", 30))
 
     whole_text = Text(mainframe, relief = "flat", font = "Ariel", background = "Light Blue", width = 35, height = 3, wrap = WORD)
     whole_text.grid(row=1, column=3)
