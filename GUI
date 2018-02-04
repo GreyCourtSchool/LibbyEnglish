@@ -5,14 +5,10 @@ def RaiseFrame(frame):
     frame.tkraise()
 
 root = Tk()
-root.geometry("800x500")
+root.geometry("900x500")
 root.title("Sudoku Solver")
 root.resizable(True, False)
 root.configure(background="Light Blue")
-
-
-
-
 
 
    
@@ -20,24 +16,15 @@ mainframe = Frame(root, background="Light Blue")
 mainframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
 
 class MenuPage():
-    wholesudoku_button = Button(mainframe, text="Solve Whole Sudoku", width=20, command=lambda:RaiseFrame(wholesudoku))
-    wholesudoku_button.grid(row=1, column=1, pady=30)
+    wholesudoku_button = Button(mainframe, text="Solve Whole Sudoku", width=20, command=lambda:RaiseFrame(wholesudoku)).grid(row=1, column=1, pady=30)  
+    selectedcell_button = Button(mainframe, text="Solve A Selected Cell", width=20, command=lambda:RaiseFrame(selectedframe)).grid(row=2, column=1, pady=30)
+    randomcell_button = Button(mainframe, text="Solve Random Cells", width=20, command=lambda:RaiseFrame(randomframe)).grid(row=3, column=1, pady=30)
     
-    selectedcell_button = Button(mainframe, text="Solve A Selected Cell", width=20, command=lambda:RaiseFrame(selectedframe))
-    selectedcell_button.grid(row=2, column=1, pady=30)
 
-    randomcell_button = Button(mainframe, text="Solve Random Cells", width=20, command=lambda:RaiseFrame(randomframe))
-    randomcell_button.grid(row=3, column=1, pady=30)
-
-    title = Label(mainframe, text = "Sudoku Solver", font=("Ariel", 30),relief = "flat", background = "Light Blue", width = 35, height = 2).grid(row=0, column=0, columnspan=20)
-
-    whole_text = Label(mainframe, text= "Choose this option if you would like your sudoku to be solved and all the cells to be filled", relief = "flat", font = "Ariel", background = "Light Blue", width = 35, wraplength=325).grid(row=1, column=3)
-
-    select_text = Label(mainframe, text= "Choose this option if you would like to pick a cell of the sudoku to be solved", font = "Ariel", relief = "flat" , background = "Light Blue", width = 35, height = 3, wraplength=325).grid(row=2, column=3, padx=100)
-    
-    random_text = Text(mainframe, relief = "flat", font = "Ariel", background = "Light Blue", width = 35, height = 3, wrap = WORD)
-    random_text.grid(row=3, column=3, padx=100)
-    random_text.insert(0.0, "Choose this option if you would like to select a number of random cells to be solved")
+    title = Label(mainframe, text = "Sudoku Solver", font =("Ariel", 30),relief = "flat", background = "Light Blue", width = 35, height = 2).grid(row=0, column=0, columnspan=20)
+    whole_text = Label(mainframe, text = "Choose this option if you would like your sudoku to be solved and all the cells to be filled", relief = "flat", font = "Ariel", background = "Light Blue", width = 35, wraplength=325).grid(row=1, column=3)
+    select_text = Label(mainframe, text = "Choose this option if you would like to pick a cell of the sudoku to be solved", font = "Ariel", relief = "flat" , background = "Light Blue", width = 35, wraplength=325).grid(row=2, column=3, padx=100)    
+    random_text = Label(mainframe, text = "Choose this option if you would like to select a number of random cells to be solved", relief = "flat", font = "Ariel", background = "Light Blue", width = 35, wraplength=325).grid(row=3, column=3, padx=100)
 
 
 
@@ -45,34 +32,26 @@ class MenuPage():
 wholesudoku= Frame(root, background="Light Blue")
 wholesudoku.grid(row=5, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
 
+sudoku= Frame(wholesudoku, background="Green")
+sudoku.grid(row=5, column=5, columnspan=2, rowspan=2)
+
 class SudokuPage():
-    
-    title = Text(wholesudoku, relief = "flat", background = "Light Blue", width = 35, height = 2)
-    title.grid(row=0, column=1, columnspan=5, rowspan=3)
-    title.insert(0.0, "Whole Sudoku Solver")
-    title.config(font=("Ariel", 30))
+    sudoku.tkraise()
+    title = Label(wholesudoku, text = "Whole Sudoku Solver", font=("Ariel", 30), relief = "flat", background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=5, rowspan=3)
     
     mainmenu_button = Button(wholesudoku, text="Main Menu", width=20, command=lambda:RaiseFrame(mainframe))
     mainmenu_button.grid(row=7, column=5, pady=300)
 
 
 
-
 selectedframe= Frame(root, background="Light Blue")
 selectedframe.grid(row=5, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
 
-class SudokuPage():
-    
-    title = Text(selectedframe, relief = "flat", background = "Light Blue", width = 35, height = 2)
-    title.grid(row=0, column=1, columnspan=5, rowspan=3)
-    title.insert(0.0, "Solve Selected Cell")
-    title.config(font=("Ariel", 30))
+class SudokuPage():    
+    title = Label(selectedframe, text = "Solve Selected Cell", relief = "flat", font = ("Ariel", 30), background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=5, rowspan=3)
     
     mainmenu_button = Button(selectedframe, text="Main Menu", width=20, command=lambda:RaiseFrame(mainframe))
     mainmenu_button.grid(row=7, column=5, pady=300)
-
-
-
 
 
     
@@ -80,10 +59,7 @@ randomframe= Frame(root, background="Light Blue")
 randomframe.grid(row=5, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
 
 class RandomPage():
-    title = Text(randomframe, relief = "flat", background = "Light Blue", width = 35, height = 2)
-    title.grid(row=0, column=1, columnspan=5, rowspan=3)
-    title.insert(0.0, "Solve Random Cells")
-    title.config(font=("Ariel", 30))
+    title = Label(randomframe, text = "Solve Random Cells", relief = "flat", font=("Ariel", 30), background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=5, rowspan=3)
     
     mainmenu_button = Button(randomframe, text="Main Menu", width=20, command=lambda:RaiseFrame(mainframe))
     mainmenu_button.grid(row=7, column=5, pady=300)
