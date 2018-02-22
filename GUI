@@ -1,24 +1,24 @@
-import tkinter as tk
 from tkinter import *
 
-def RaiseFrame(frame):
-    frame.tkraise()
+def ChangeWindow(self, window):
+   self.withdraw()
+   window.state('normal')
 
-root = Tk()
-root.geometry("900x500")
-root.title("Sudoku Solver")
-root.resizable(True, False)
-root.configure(background="Light Blue")
+########################################################################################################################
 
+menu = Toplevel()
+menu.geometry("900x500")
+menu.title("Sudoku Solver")
+menu.resizable(False, False)
+menu.configure(background="Light Blue")
 
-   
-mainframe = Frame(root, background="Light Blue")
+mainframe = Frame(menu, background="Light Blue")
 mainframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
 
 class MenuPage():
-    wholesudoku_button = Button(mainframe, text="Solve Whole Sudoku", width=20, command=lambda:RaiseFrame(wholesudoku)).grid(row=1, column=1, pady=30)  
-    selectedcell_button = Button(mainframe, text="Solve A Selected Cell", width=20, command=lambda:RaiseFrame(selectedframe)).grid(row=2, column=1, pady=30)
-    randomcell_button = Button(mainframe, text="Solve Random Cells", width=20, command=lambda:RaiseFrame(randomframe)).grid(row=3, column=1, pady=30)
+    wholesudoku_button = Button(mainframe, text="Solve Whole Sudoku", width=20, command=lambda:ChangeWindow(menu, full)).grid(row=1, column=1, pady=30)  
+    selectedcell_button = Button(mainframe, text="Solve A Selected Cell", width=20, command=lambda:ChangeWindow(menu, select)).grid(row=2, column=1, pady=30)
+    randomcell_button = Button(mainframe, text="Solve Random Cells", width=20, command=lambda:ChangeWindow(randomframe)).grid(row=3, column=1, pady=30)
     
 
     title = Label(mainframe, text = "Sudoku Solver", font =("Ariel", 30),relief = "flat", background = "Light Blue", width = 35, height = 2).grid(row=0, column=0, columnspan=20)
@@ -27,62 +27,133 @@ class MenuPage():
     random_text = Label(mainframe, text = "Choose this option if you would like to select a number of random cells to be solved", relief = "flat", font = "Ariel", background = "Light Blue", width = 35, wraplength=325).grid(row=3, column=3, padx=100)
 
 
+########################################################################################################################
 
 
-wholesudoku= Frame(root, background="Light Blue")
-wholesudoku.grid(row=5, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
+full = Toplevel()
+full.geometry("900x650")
+full.title("Sudoku Solver")
+full.resizable(False, False)
+full.configure(background="Light Blue")
 
-sudoku= Frame(wholesudoku, background="Green")
-sudoku.grid(row=5, column=5, columnspan=2, rowspan=2)
+
+wholesudoku= Frame(full, background="Light Blue")
+wholesudoku.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=20)
+
+#frame to hold the sudoku grid
+frame_sudokuEntry = Frame(wholesudoku, background="black")
+frame_sudokuEntry.grid(row=3, column=0, columnspan=3, rowspan=3, pady=10)
 
 class SudokuPage():
-    sudoku.tkraise()
-    title = Label(wholesudoku, text = "Whole Sudoku Solver", font=("Ariel", 30), relief = "flat", background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=5, rowspan=3)
-    
+    #makes and positions the title
+    title = Label(wholesudoku, text = "Whole Sudoku Solver", font=("Ariel", 30), background = "Light Blue", width = 35, height = 2).grid(row=0, column=2, columnspan=3, rowspan=3)
+
+    #for loop creating the sudoku solver
     for y in range (1,4):
-       for x in range (1,4):
-           #place a frame to contain labels and user entries
-           frame_3x3 = Frame(frame_sudokuEntry, background="black")
-           frame_3x3.grid(row=y, column=x, columnspan=1, padx=2, pady=2)
-           #place the text entry fields
-           r1c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=1, padx=2, pady=2)
-           r1c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=2, padx=2, pady=2)
-           r1c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=3, padx=2, pady=2)
-           r2c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=1, padx=2, pady=2)
-           r2c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=2, padx=2, pady=2)
-           r2c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=3, padx=2, pady=2)
-           r3c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=1, padx=2, pady=2)
-           r3c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=2, padx=2, pady=2)
-           r3c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=3, padx=2, pady=2)
+        for x in range (1,4):
+            #place a frame to contain labels and user entries
+            frame_3x3 = Frame(frame_sudokuEntry, background="black")
+            frame_3x3.grid(row=y, column=x, columnspan=1, padx=2, pady=2)
+            #place the text entry fields
+            r1c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=1, padx=2, pady=2)
+            r1c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=2, padx=2, pady=2)
+            r1c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=3, padx=2, pady=2)
+            r2c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=1, padx=2, pady=2)
+            r2c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=2, padx=2, pady=2)
+            r2c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=3, padx=2, pady=2)
+            r3c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=1, padx=2, pady=2)
+            r3c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=2, padx=2, pady=2)
+            r3c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=3, padx=2, pady=2)
 
-    
-    mainmenu_button = Button(wholesudoku, text="Main Menu", width=20, command=lambda:RaiseFrame(mainframe))
-    mainmenu_button.grid(row=7, column=5, pady=300)
+    guide = Label(wholesudoku, text = 'This will solve the whole suodku for you. Please enter in all of the numbers that you know and click the solve button once done. The answers will then appear in the grid that you inputted them. If a solution cannot be found then an error message will be outputted. If you would like to use a different function, use the main menu button to choose it.', relief = "flat", font = "Ariel", background = "Light Blue", width = 30, wraplength=250).grid(row=3, column=3, columnspan=2)
+
+    #creating and placing the button which will solve the whole sudoku
+    solve_button = Button(wholesudoku, text="Solve Sudoku", width=20, command=print('solve'))
+    solve_button.grid(row=5, column=3)
+
+    #creating tand placing the button which will take you back to the main menu
+    mainmenu_button = Button(wholesudoku, text="Main Menu", width=20, command=lambda:ChangeWindow(full, menu))
+    mainmenu_button.grid(row=5, column=4)
 
 
+########################################################################################################################
 
-selectedframe= Frame(root, background="Light Blue")
-selectedframe.grid(row=5, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
 
-class SudokuPage():    
+select = Toplevel()
+select.geometry("900x650")
+select.title("Sudoku Solver")
+select.resizable(False, False)
+select.configure(background="Light Blue")
+
+selectedframe= Frame(select, background="Light Blue")
+selectedframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
+
+frame_sudokuEntry = Frame(selectedframe, background="black")
+frame_sudokuEntry.grid(row=3, column=0, columnspan=6, rowspan =3)
+
+class SelectPage():    
     title = Label(selectedframe, text = "Solve Selected Cell", relief = "flat", font = ("Ariel", 30), background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=5, rowspan=3)
+    for y in range (1,4):
+        for x in range (1,4):
+            #place a frame to contain labels and user entries
+            frame_3x3 = Frame(frame_sudokuEntry, background="black")
+            frame_3x3.grid(row=y, column=x, columnspan=1, padx=2, pady=2)
+            #place the text entry fields
+            r1c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=1, padx=2, pady=2)
+            r1c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=2, padx=2, pady=2)
+            r1c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=3, padx=2, pady=2)
+            r2c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=1, padx=2, pady=2)
+            r2c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=2, padx=2, pady=2)
+            r2c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=3, padx=2, pady=2)
+            r3c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=1, padx=2, pady=2)
+            r3c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=2, padx=2, pady=2)
+            r3c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=3, padx=2, pady=2)  
+
     
-    mainmenu_button = Button(selectedframe, text="Main Menu", width=20, command=lambda:RaiseFrame(mainframe))
+    mainmenu_button = Button(selectedframe, text="Main Menu", width=20, command=lambda:ChangeWindow(select,menu))
     mainmenu_button.grid(row=7, column=5, pady=300)
 
+########################################################################################################################
 
-    
-randomframe= Frame(root, background="Light Blue")
-randomframe.grid(row=5, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
+random = Toplevel()
+random.geometry("900x650")
+random.title("Sudoku Solver")
+random.resizable(False, False)
+random.configure(background="Light Blue")
+
+   
+randomframe= Frame(random, background="Light Blue")
+randomframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
+
+frame_sudokuEntry = Frame(randomframe, background="black")
+frame_sudokuEntry.grid(row=3, column=0, columnspan=6, rowspan =3)
 
 class RandomPage():
     title = Label(randomframe, text = "Solve Random Cells", relief = "flat", font=("Ariel", 30), background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=5, rowspan=3)
+
+    for y in range (1,4):
+        for x in range (1,4):
+            #place a frame to contain labels and user entries
+            frame_3x3 = Frame(frame_sudokuEntry, background="black")
+            frame_3x3.grid(row=y, column=x, columnspan=1, padx=2, pady=2)
+            #place the text entry fields
+            r1c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=1, padx=2, pady=2)
+            r1c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=2, padx=2, pady=2)
+            r1c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=1, column=3, padx=2, pady=2)
+            r2c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=1, padx=2, pady=2)
+            r2c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=2, padx=2, pady=2)
+            r2c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=2, column=3, padx=2, pady=2)
+            r3c1 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=1, padx=2, pady=2)
+            r3c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=2, padx=2, pady=2)
+            r3c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=3, padx=2, pady=2)  
+
     
-    mainmenu_button = Button(randomframe, text="Main Menu", width=20, command=lambda:RaiseFrame(mainframe))
+    mainmenu_button = Button(randomframe, text="Main Menu", width=20, command=lambda:ChangeWindow(random, menu))
     mainmenu_button.grid(row=7, column=5, pady=300)
 
+########################################################################################################################
 
-
-
-mainframe.tkraise()
-root.mainloop()
+full.withdraw()
+select.withdraw()
+random.withdraw()
+menu.mainloop()
