@@ -6,7 +6,7 @@ def ChangeWindow(self, window):
 
 ########################################################################################################################
 
-menu = Toplevel()
+menu = Tk()
 menu.geometry("900x500")
 menu.title("Sudoku Solver")
 menu.resizable(False, False)
@@ -18,7 +18,7 @@ mainframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
 class MenuPage():
     wholesudoku_button = Button(mainframe, text="Solve Whole Sudoku", width=20, command=lambda:ChangeWindow(menu, full)).grid(row=1, column=1, pady=30)  
     selectedcell_button = Button(mainframe, text="Solve A Selected Cell", width=20, command=lambda:ChangeWindow(menu, select)).grid(row=2, column=1, pady=30)
-    randomcell_button = Button(mainframe, text="Solve Random Cells", width=20, command=lambda:ChangeWindow(randomframe)).grid(row=3, column=1, pady=30)
+    randomcell_button = Button(mainframe, text="Solve Random Cells", width=20, command=lambda:ChangeWindow(menu, random)).grid(row=3, column=1, pady=30)
     
 
     title = Label(mainframe, text = "Sudoku Solver", font =("Ariel", 30),relief = "flat", background = "Light Blue", width = 35, height = 2).grid(row=0, column=0, columnspan=20)
@@ -30,7 +30,7 @@ class MenuPage():
 ########################################################################################################################
 
 
-full = Toplevel()
+full = Toplevel(menu)
 full.geometry("900x650")
 full.title("Sudoku Solver")
 full.resizable(False, False)
@@ -65,7 +65,8 @@ class SudokuPage():
             r3c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=2, padx=2, pady=2)
             r3c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=3, padx=2, pady=2)
 
-    guide = Label(wholesudoku, text = 'This will solve the whole suodku for you. Please enter in all of the numbers that you know and click the solve button once done. The answers will then appear in the grid that you inputted them. If a solution cannot be found then an error message will be outputted. If you would like to use a different function, use the main menu button to choose it.', relief = "flat", font = "Ariel", background = "Light Blue", width = 30, wraplength=250).grid(row=3, column=3, columnspan=2)
+    #creates and positions the text which describes what you need to do
+    guide = Label(wholesudoku, text = 'This feature will solve the whole suodku for you. Please enter in all of the numbers that you know and click the solve button once done. The answers will then appear in the grid that you inputted them. If a solution cannot be found then an error message will be outputted. If you would like to use a different function, use the main menu button to navigate to it.', relief = "flat", font = "Ariel", background = "Light Blue", width = 30, wraplength=250).grid(row=3, column=3, columnspan=2)
 
     #creating and placing the button which will solve the whole sudoku
     solve_button = Button(wholesudoku, text="Solve Sudoku", width=20, command=print('solve'))
@@ -79,20 +80,20 @@ class SudokuPage():
 ########################################################################################################################
 
 
-select = Toplevel()
+select = Toplevel(menu)
 select.geometry("900x650")
 select.title("Sudoku Solver")
 select.resizable(False, False)
 select.configure(background="Light Blue")
 
 selectedframe= Frame(select, background="Light Blue")
-selectedframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
+selectedframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=20)
 
 frame_sudokuEntry = Frame(selectedframe, background="black")
-frame_sudokuEntry.grid(row=3, column=0, columnspan=6, rowspan =3)
+frame_sudokuEntry.grid(row=3, column=0, columnspan=3, rowspan =3)
 
 class SelectPage():    
-    title = Label(selectedframe, text = "Solve Selected Cell", relief = "flat", font = ("Ariel", 30), background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=5, rowspan=3)
+    title = Label(selectedframe, text = "Solve Selected Cell", relief = "flat", font = ("Ariel", 30), background = "Light Blue", width = 35, height = 2).grid(row=0, column=2, columnspan=3, rowspan=3)
     for y in range (1,4):
         for x in range (1,4):
             #place a frame to contain labels and user entries
@@ -109,27 +110,34 @@ class SelectPage():
             r3c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=2, padx=2, pady=2)
             r3c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=3, padx=2, pady=2)  
 
-    
-    mainmenu_button = Button(selectedframe, text="Main Menu", width=20, command=lambda:ChangeWindow(select,menu))
-    mainmenu_button.grid(row=7, column=5, pady=300)
+    #creates and positions the text which describes what you need to do
+    guide = Label(selectedframe, text = 'This feature will solve as many cells as you want. Please enter in all of the numbers that you know and then put an X inside each cell that you would like to be solved. Once you have entered in everything, click the Solve Cells button. If the sudoku cannot be solved or hasnt been entered properly, an error message will be displayed. If you would like to use a different function, use the main menu button to navigate to it.', relief = "flat", font = "Ariel", background = "Light Blue", width = 30, wraplength=250).grid(row=3, column=3, columnspan=2)
+
+    #creating and placing the button which will solve the whole sudoku
+    solve_button = Button(selectedframe, text="Solve Cells", width=20, command=print('solve'))
+    solve_button.grid(row=5, column=3)
+
+    #creating tand placing the button which will take you back to the main menu
+    mainmenu_button = Button(selectedframe, text="Main Menu", width=20, command=lambda:ChangeWindow(select, menu))
+    mainmenu_button.grid(row=5, column=4)
 
 ########################################################################################################################
 
-random = Toplevel()
-random.geometry("900x650")
+random = Toplevel(menu)
+random.geometry("950x650")
 random.title("Sudoku Solver")
 random.resizable(False, False)
 random.configure(background="Light Blue")
 
    
 randomframe= Frame(random, background="Light Blue")
-randomframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50)
+randomframe.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=20)
 
 frame_sudokuEntry = Frame(randomframe, background="black")
-frame_sudokuEntry.grid(row=3, column=0, columnspan=6, rowspan =3)
+frame_sudokuEntry.grid(row=3, column=0, columnspan=3, rowspan =3)
 
 class RandomPage():
-    title = Label(randomframe, text = "Solve Random Cells", relief = "flat", font=("Ariel", 30), background = "Light Blue", width = 35, height = 2).grid(row=0, column=1, columnspan=5, rowspan=3)
+    title = Label(randomframe, text = "Solve Random Cells", relief = "flat", font=("Ariel", 30), background = "Light Blue", width = 35, height = 2).grid(row=0, column=2, columnspan=3, rowspan=3)
 
     for y in range (1,4):
         for x in range (1,4):
@@ -147,9 +155,19 @@ class RandomPage():
             r3c2 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=2, padx=2, pady=2)
             r3c3 = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg="white").grid(row=3, column=3, padx=2, pady=2)  
 
-    
+    #creates and positions the text which describes what you need to do
+    guide = Label(randomframe, text = 'This feature will solve as many random cells as you want. Please enter in all of the numbers that you know and then enter the amount of cells that you would like to be solved into the text box. Once you have entered in everything, click the Solve Random Cells button. If the sudoku cannot be solved or something hasnt been entered properly, an error message will be displayed. If you would like to use a different function, use the main menu button to navigate to it.', relief = "flat", font = "Ariel", background = "Light Blue", width = 30, wraplength=250).grid(row=3, column=3, columnspan=2)
+
+    text = Label(randomframe, text = 'How many cells do you want to solve?', relief = "flat", font = "Ariel", background = "Light Blue", width = 30).grid(row=4, column=3)
+    amount = Entry(randomframe, width=2).grid(row=4, column=4)
+
+    #creating and placing the button which will solve the whole sudoku
+    solve_button = Button(randomframe, text="Solve Random Cells", width=20, command=print('solve'))
+    solve_button.grid(row=5, column=3)
+
+    #creating tand placing the button which will take you back to the main menu
     mainmenu_button = Button(randomframe, text="Main Menu", width=20, command=lambda:ChangeWindow(random, menu))
-    mainmenu_button.grid(row=7, column=5, pady=300)
+    mainmenu_button.grid(row=5, column=4)
 
 ########################################################################################################################
 
