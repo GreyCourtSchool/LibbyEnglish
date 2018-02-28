@@ -1,104 +1,131 @@
 sudoku=[[[5,3,0],[6,0,0],[0,9,8]],[[0,7,0],[1,9,5],[0,0,0]],[[0,0,0],[0,0,0],[0,6,0]],[[8,0,0],[4,0,0],[7,0,0]],[[0,6,0],[8,0,3],[0,2,0]],[[0,0,3],[0,0,1],[0,0,1]],[[0,6,0],[0,0,0],[0,0,0]],[[0,0,0],[4,1,9],[0,8,0]],[[2,8,0],[0,0,5],[0,7,9]]]    #sets the sudoku values
+emptyCells=[]
 
 ##################################################
 
 def printSudoku():
-  print()
-  print(sudoku[0][0],'|',sudoku[1][0],'|',sudoku[2][0])
-  print(sudoku[0][1],'|',sudoku[1][1],'|',sudoku[2][1])
-  print(sudoku[0][2],'|',sudoku[1][2],'|',sudoku[2][2])
-  print("---------------------------------")
-  print(sudoku[3][0],'|',sudoku[4][0],'|',sudoku[5][0])
-  print(sudoku[3][1],'|',sudoku[4][1],'|',sudoku[5][1])
-  print(sudoku[3][2],'|',sudoku[4][2],'|',sudoku[5][2])
-  print("---------------------------------")
-  print(sudoku[6][0],'|',sudoku[7][0],'|',sudoku[8][0])
-  print(sudoku[6][1],'|',sudoku[7][1],'|',sudoku[8][1])
-  print(sudoku[6][2],'|',sudoku[7][2],'|',sudoku[8][2])
-  print()
+    print()
+    print(sudoku[0][0],'|',sudoku[1][0],'|',sudoku[2][0])
+    print(sudoku[0][1],'|',sudoku[1][1],'|',sudoku[2][1])
+    print(sudoku[0][2],'|',sudoku[1][2],'|',sudoku[2][2])
+    print("----------|-----------|----------")
+    print(sudoku[3][0],'|',sudoku[4][0],'|',sudoku[5][0])
+    print(sudoku[3][1],'|',sudoku[4][1],'|',sudoku[5][1])
+    print(sudoku[3][2],'|',sudoku[4][2],'|',sudoku[5][2])
+    print("----------|-----------|----------")
+    print(sudoku[6][0],'|',sudoku[7][0],'|',sudoku[8][0])
+    print(sudoku[6][1],'|',sudoku[7][1],'|',sudoku[8][1])
+    print(sudoku[6][2],'|',sudoku[7][2],'|',sudoku[8][2])
+    print()
 
 ##################################################
 
 def inColumn(square, col, num):
-  clash=''
-  if square < 3:
-    for y in list(range(square,square+1)) + list(range(square+3,square+4)) + list(range(square+6,square+7)):
-      for x in range(3):
-        if (sudoku[y][x][col] == num):
-          clash='Y'
-  elif square > 5:
-    for y in list(range(square-6,square-5)) + list(range(square-3,square-2)) + list(range(square,square+1)):
-      for x in range(3):
-        if (sudoku[y][x][col] == num):
-          clash='Y'
-  else:
-    for y in list(range(square-3,square-2)) + list(range(square,square+1)) + list(range(square+3,square+4)):
-      for x in range(3):
-        if (sudoku[y][x][col] == num):
-          clash='Y'
-  return clash
-
+    clash=''
+    if square < 3:
+        for y in list(range(square,square+1)) + list(range(square+3,square+4)) + list(range(square+6,square+7)):
+            for x in range(3):
+                if (sudoku[y][x][col] == num):
+                    clash='Y'
+    elif square > 5:
+        for y in list(range(square-6,square-5)) + list(range(square-3,square-2)) + list(range(square,square+1)):
+            for x in range(3):
+                if (sudoku[y][x][col] == num):
+                    clash='Y'
+    else:
+        for y in list(range(square-3,square-2)) + list(range(square,square+1)) + list(range(square+3,square+4)):
+            for x in range(3):
+                if (sudoku[y][x][col] == num):
+                    clash='Y'
+    return clash
 
 def inRow(square, row, num):
-  clash=''
-  if square == 0 or square == 3 or square == 6:
-    for y in range(square,square+3):
-      for x in range(3):
-        if (sudoku[y][row][x] == num):
-          clash='Y'
-  elif square == 1 or square == 4 or square == 7:
-    for y in range(square-1,square+2):
-      for x in range(3):
-        if (sudoku[y][row][x] == num):
-          clash='Y'
-  else:
-    for y in range(square-2,square+1):
-      for x in range(3):
-        if (sudoku[y][row][x] == num):
-          clash='Y'    
-  return clash
-
+    clash=''
+    if square == 0 or square == 3 or square == 6:
+        for y in range(square,square+3):
+            for x in range(3):
+                if (sudoku[y][row][x] == num):
+                    clash='Y'
+    elif square == 1 or square == 4 or square == 7:
+        for y in range(square-1,square+2):
+            for x in range(3):
+                if (sudoku[y][row][x] == num):
+                    clash='Y'
+    else:
+        for y in range(square-2,square+1):
+            for x in range(3):
+                if (sudoku[y][row][x] == num):
+                    clash='Y'    
+    return clash
 
 def inSquare(square, num):
-  clash=''
-  for x in range(3):
-    for y in range(3):
-      if (sudoku[square][x][y] == num):
-        clash='Y'
-  return clash
+    clash=''
+    for x in range(3):
+        for y in range(3):
+            if (sudoku[square][x][y] == num):
+                clash='Y'
+    return clash
   
 #################################################
 
-def backtrack(square, row, column):
-  print(square, row, column,"error, need to backtrack")
-
+def backTrack(square, row, column):
+    previous=emptyCells[currentCell-2]
+    s=previous[0]
+    r=previous[1]
+    c=previous[2]
+    square=int(s)
+    row=int(r)
+    column=int(c)
+    num=sudoku[square][row][column]
+    #checkNext(square, row, column, num)
+  
 #################################################
 
 def checkNext(square, row, column, num):
-  if num == 9:
-    backtrack(square, row, column)
-  else:
-    num=num+1
-    squareClash = inSquare(square, num)
-    if squareClash != 'Y':
-      rowClash = inRow(square, row, num)
-      if rowClash != 'Y':
-        columnClash = inColumn(square, column, num)
-        if columnClash != 'Y':
-          sudoku[square][row][column]=num
-        else:
-          checkNext(square, row, column, num)
-      else:
-        checkNext(square, row, column, num)
+    if num == 9:
+        backTrack(square, row, column)      
     else:
-      checkNext(square, row, column, num)
+        num=num+1
+        squareClash = inSquare(square, num)
+        if squareClash != 'Y':
+            rowClash = inRow(square, row, num)
+            if rowClash != 'Y':
+                columnClash = inColumn(square, column, num)
+                if columnClash != 'Y':
+                    sudoku[square][row][column]=num
+                else:
+                    checkNext(square, row, column, num)
+            else:
+                checkNext(square, row, column, num)
+        else:
+            checkNext(square, row, column, num)
 
 #################################################
 
-for square in range(9):
-  for row in range(3):
-    for column in range(3):
-      if sudoku[square][row][column]==0:
-        checkNext(square, row, column, 0)
+def storeEmpty(s, r, c):
+    strs=str(s)
+    strr=str(r)
+    strc=str(c)
+    coordinates=strs+strr+strc
+    emptyCells.append(coordinates)
+
+#################################################
+
 
 printSudoku()
+currentCell=0
+
+for s in range(9):
+    for r in range(3):
+        for c in range(3):
+            if sudoku[s][r][c]==0:
+                currentCell=currentCell+1
+                checkNext(s, r, c, 0)
+                storeEmpty(s, r, c)
+                
+printSudoku()
+
+
+
+
+
