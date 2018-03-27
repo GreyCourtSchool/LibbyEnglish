@@ -1,10 +1,10 @@
 sudoku=[[[5,3,0],[6,0,0],[0,9,8]],[[0,7,0],[1,9,5],[0,0,0]],[[0,0,0],[0,0,0],[0,6,0]],[[8,0,0],[4,0,0],[7,0,0]],[[0,6,0],[8,0,3],[0,2,0]],[[0,0,3],[0,0,1],[0,0,6]],[[0,6,0],[0,0,0],[0,0,0]],[[0,0,0],[4,1,9],[0,8,0]],[[2,8,0],[0,0,5],[0,7,9]]]    #sets the sudoku values
-emptyCells=[]
+emptyCells=[]    #declares the value emptyCells as an empty list
 
 ######################################################################################################################################################
 
-def printSudoku():
-    print()
+def printSudoku():      #creates the function printSudoku
+    print()             
     print(sudoku[0][0],'|',sudoku[1][0],'|',sudoku[2][0])
     print(sudoku[0][1],'|',sudoku[1][1],'|',sudoku[2][1])
     print(sudoku[0][2],'|',sudoku[1][2],'|',sudoku[2][2])
@@ -20,43 +20,42 @@ def printSudoku():
 
 ######################################################################################################################################################
 
-def inColumn(square, col, num):
-    clash=''
-    if square < 3:
-        for y in list(range(square,square+1)) + list(range(square+3,square+4)) + list(range(square+6,square+7)):
-            for x in range(3):
-                if (sudoku[y][x][
-                    col] == num):
-                    clash='Y'
-    elif square > 5:
-        for y in list(range(square-6,square-5)) + list(range(square-3,square-2)) + list(range(square,square+1)):
-            for x in range(3):
-                if (sudoku[y][x][col] == num):
-                    clash='Y'
-    else:
-        for y in list(range(square-3,square-2)) + list(range(square,square+1)) + list(range(square+3,square+4)):
-            for x in range(3):
-                if (sudoku[y][x][col] == num):
-                    clash='Y'
-    return clash
+def inColumn(squ, col, num):   #creates the function inColumn and takes 3 parameters                                                                                      
+    clash=''    #declares the variable clash as an empty string
+    if squ < 3:      #checks if square is in the top row
+        for y in list(range(squ,squ+1)) + list(range(squ+3,squ+4)) + list(range(squ+6,squ+7)):  #loops through the current square and the two beneath it
+            for x in range(3):  #loops through the cells within the squares
+                if (sudoku[y][x][col] == num):  #compares the cells to the number that might be assigned
+                    clash='Y'   #if its true then it assings Y to clash
+    elif squ > 5:     #checks if square is in the top row
+        for y in list(range(squ-6,squ-5)) + list(range(squ-3,squ-2)) + list(range(squ,squ+1)):    #loops through the current square and the two above it
+            for x in range(3):  #loops through the cells within the squares
+                if (sudoku[y][x][col] == num):  #compares the cells to the number that might be assigned
+                    clash='Y'  #if its true then it assings Y to clash
+    else:    #checks if square is in the middle row
+        for y in list(range(squ-3,squ-2)) + list(range(squ,squ+1)) + list(range(squ+3,squ+4)):    #loops through the current square and the ones on top and beneath it
+            for x in range(3):  #loops through the cells within the squares
+                if (sudoku[y][x][col] == num):  #compares the cells to the number that might be assigned
+                    clash='Y'   #if its true then it assings Y to clash
+    return clash        #returns the value of clash back to the main code
 
-def inRow(square, row, num):
-    clash=''
-    if square == 0 or square == 3 or square == 6:
+def inRow(squ, row, num):    #creates the function inColumn and takes 3 parameters
+    clash=''    #declares the variable clash as an empty string
+    if squ == 0 or square == 3 or square == 6:
         for y in range(square,square+3):
             for x in range(3):
                 if (sudoku[y][row][x] == num):
-                    clash='Y'
+                    clash='Y'    #if its true then it assings Y to clash
     elif square == 1 or square == 4 or square == 7:
         for y in range(square-1,square+2):
             for x in range(3):
                 if (sudoku[y][row][x] == num):
-                    clash='Y'
+                    clash='Y'    #if its true then it assings Y to clash
     else:
         for y in range(square-2,square+1):
             for x in range(3):
                 if (sudoku[y][row][x] == num):
-                    clash='Y'
+                    clash='Y'    #if its true then it assings Y to clash
     return clash
 
 def inSquare(square, num):
