@@ -1,0 +1,156 @@
+import sys
+sudoku=[[[5,3,0],[6,0,0],[0,9,8]],[[0,7,0],[1,9,5],[0,0,0]],[[0,0,00],[0,0,0],[0,6,0]],[[8,0,0],[4,0,0],[7,0,0]],[[0,6,0],[8,0,3],[0,2,0]],[[0,0,3],[0,0,1],[0,0,6]],[[0,6,0],[0,0,0],[0,0,0]],[[0,0,0],[4,1,9],[0,8,0]],[[2,8,0],[0,0,5],[0,7,9]]]
+#^this line declares and assigns values to the sudoku array
+emptyCells=[]    #declares the value emptyCells as an empty list
+
+#########################################################################################################################
+
+def printSudoku():      #creates the function printSudoku
+    print()   #prints an empty line  
+    print(sudoku[0][0],'|',sudoku[1][0],'|',sudoku[2][0])
+    print(sudoku[0][1],'|',sudoku[1][1],'|',sudoku[2][1])
+    print(sudoku[0][2],'|',sudoku[1][2],'|',sudoku[2][2])
+    print("----------|-----------|----------")  #prints a line simply for formatting
+    print(sudoku[3][0],'|',sudoku[4][0],'|',sudoku[5][0])
+    print(sudoku[3][1],'|',sudoku[4][1],'|',sudoku[5][1])
+    print(sudoku[3][2],'|',sudoku[4][2],'|',sudoku[5][2])
+    print("----------|-----------|----------")
+    print(sudoku[6][0],'|',sudoku[7][0],'|',sudoku[8][0])
+    print(sudoku[6][1],'|',sudoku[7][1],'|',sudoku[8][1])
+    print(sudoku[6][2],'|',sudoku[7][2],'|',sudoku[8][2])
+
+#########################################################################################################################
+
+def inColumn(squ, col, num):   #creates the function inColumn and takes 3 parameters                                                                                      
+    clash=''    #declares the variable clash as an empty string
+    if squ < 3:      #checks if square is in the top row
+        for y in list(range(squ,squ+1)) + list(range(squ+3,squ+4)) + list(range(squ+6,squ+7)):
+            #^loops through the current square and the two beneath it
+            for x in range(3):  #loops through the cells within the squares
+                if (sudoku[y][x][col] == num):  #compares the cells to the number that might be assigned
+                    clash='Y'   #if its true then it assings Y to clash
+    elif squ > 5:     #checks if square is in the top row
+        for y in list(range(squ-6,squ-5)) + list(range(squ-3,squ-2)) + list(range(squ,squ+1)):
+            #^loops through the current square and the two above it
+            for x in range(3):  #loops through the cells within the squares
+                if (sudoku[y][x][col] == num):  #compares the cells to the number that might be assigned
+                    clash='Y'  #if its true then it assings Y to clash
+    else:    #all other squares must be in the middle row
+        for y in list(range(squ-3,squ-2)) + list(range(squ,squ+1)) + list(range(squ+3,squ+4)):
+            #^loops through the current square and the ones on top and beneath it
+            for x in range(3):  #loops through the cells within the squares
+                if (sudoku[y][x][col] == num):  #compares the cells to the number that might be assigned
+                    clash='Y'   #if its true then it assings Y to clash
+    return clash    #returns the value stored in clash to the variable columnClash
+
+#########################################################################################################################
+
+def inRow(squ, row, num):    #creates the function inRow and takes 3 parameters
+    clash=''    #declares the variable clash as an empty string
+    if squ == 0 or squ == 3 or squ == 6:    #checks if the square is in leftmost column
+        for y in range(squ,squ+3):  #iterates through current square and the two to the right
+            for x in range(3):  #loops through the cells within the row
+                if (sudoku[y][row][x] == num):  #compares the cells to num
+                    clash='Y'    #if its true then it assings Y to clash
+    elif squ == 1 or squ == 4 or squ == 7:  #checks if the square is in the middle column
+        for y in range(squ-1,squ+2):    #iterates through current square and the two on either side
+            for x in range(3):   #loops through the cells within the row
+                if (sudoku[y][row][x] == num):  #compares the cells to num
+                    clash='Y'    #if its true then it assings Y to clash
+    else:   #all other squares must be in rightmost column
+        for y in range(squ-2,squ+1):    #iterates through current square and the two to the left
+            for x in range(3):   #loops through the cells within the row
+                if (sudoku[y][row][x] == num):  #compares the cells to num
+                    clash='Y'    #if its true then it assings Y to clash
+    return clash    #returns the value stored in clash to the variable rowClash
+  
+#########################################################################################################################
+
+def inSquare(squ, num):  #creates the function inSquare and takes 2 parameters
+    clash=''    #declares the variable clash as an empty string
+    for x in range(3):  #loops through the rows
+        for y in range(3):  #loops through the columns
+            if (sudoku[squ][x][y] == num):  #compares the cells to num
+                clash='Y'   #if true then assigns 'Y' to clash
+    return clash    #returns the value stored in clash to the variable squareClash
+  
+#########################################################################################################################
+
+def backTrack(square, row, column, currentCell):    #creates the function backTrack and takes 4 arguments
+    currentCell=currentCell-1   #decreases currentCell by 1
+    prevSquare=int(emptyCells[currentCell-1][0])  #takes first char from the previous string stored in emptycells and converts to an integer
+    prevRow=int(emptyCells[currentCell-1][1])  #takes second char from the previous string stored in emptycells and converts to an integer
+    prevColumn=int(emptyCells[currentCell-1][2])  #takes last char from the previous string stored in emptycells and converts to an integer
+    prevNum=sudoku[prevSquare][prevRow][prevColumn] #takes the value that was in the previous cell and 
+    checkNext(prevSquare, prevRow, prevColumn, prevNum, currentCell)    #calls checkNext with co-ordinates and num from previous cell
+    currentCell=currentCell+1   #increases currentCell by 1
+    checkNext(square, row, column, 0, currentCell)  #calls checkNext with the original co-ordinates and num
+    
+#########################################################################################################################
+
+def checkNext(square, row, column, num, currentCell):    #creates the function checkNext and takes 5 arguements
+    if num == 9:    #checks if the number in the call cannot be increased any more and needs to backtrack
+        sudoku[square][row][column] = 0     #assigns the number to 0
+        backTrack(square, row, column, currentCell)      #calls backtrack and passes in the coordinates and the currentCell
+    else:   
+        num=num+1   #increases num by one
+        squareClash = inSquare(square, num)     #calls squareClash and assigns the value it returns to squareClash
+        if squareClash != 'Y':  #checks if squareClash is not Y (so there isn't a clash)
+            rowClash = inRow(square, row, num)     #calls squareClash and assigns the value it returns to squareClash
+            if rowClash != 'Y':     #checks if squareClash is not Y
+                columnClash = inColumn(square, column, num) #calls inColumn and assigns the value it returns to columnClash
+                if columnClash != 'Y':  #checks if columnClash is not 'Y' 
+                    sudoku[square][row][column]=num     #num is assigned to the curret cell
+                else:   #there is a clash
+                    checkNext(square, row, column, num, currentCell) #calls checkNext with the new value for num
+            else:
+                checkNext(square, row, column, num, currentCell)
+        else:
+            checkNext(square, row, column, num, currentCell)
+            
+
+#########################################################################################################################
+
+def storeEmpty(s, r, c):    #makes the function storeEmpty and takes 3 arguements
+    strs=str(s)     #this section converts the variables into a string
+    strr=str(r)     
+    strc=str(c)     
+    coordinates=strs+strr+strc  #the strings are combined into one string called coordinates
+    emptyCells.append(coordinates)  #adds the current string to the array
+
+#########################################################################################################################
+
+def validate():
+    clues=0     #sets clues to 0
+    for s in range(9):  #iterates through each square
+        for r in range(3):  #iterates through each row
+            for c in range(3):  #iterates through each column
+                if len(str(sudoku[s][r][c]))>1:     #checks the length of the items in the array
+                    print('One of your inputs is too big, they can only be one digit')
+                    sys.exit()  #ends the program
+                if sudoku[s][r][c]!=0:  #checks if the cell is not empty
+                    clues=clues+1   #counts the amount of clues used throughout the sudoku
+                try:    #attempts the next line of code
+                    test = int(sudoku[s][r][c]) #tests to see if the value is an int
+                except ValueError:  #if it enounters ValueError then it outputs the error message
+                    print("Please make sure all of your inputs are numbers")
+                    sys.exit()  #ends the program
+    if clues < 17:  #checks is the amount of clues is under 17
+        print('Not enough clues are provided to be able to solve the sudoku')
+        sys.exit()  #ends the program
+
+#####################################################################################################################################################
+
+printSudoku()   #calls the funtion printSudoku, at this point it won't be solved
+
+currentCell=0   #sets currentCell to 0
+validate()#calls the function validate
+for s in range(9):  #iterates through each square
+        for r in range(3):  #iterates through each row
+            for c in range(3):  #iterates through each column
+                if sudoku[s][r][c]==0:  #checks if the cell is empty
+                    currentCell=currentCell+1   #increments currentCell by 1
+                    checkNext(s, r, c, 0, currentCell)  #calls checkNext
+                    storeEmpty(s, r, c)     #calls storeEmpty
+                    
+printSudoku()   #calls the function printSudoku, at this point it will be solved
