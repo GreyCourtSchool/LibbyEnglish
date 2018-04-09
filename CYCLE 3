@@ -152,20 +152,20 @@ def error(message):     #starts the function error and takes 1 argument
     errorMessage.pack() #inserts the message into the window        
     popup.state('normal')   #opens the pop up box
     popup.lift() #ensures that the window is always at the front
-
+ 
 #####################################################################################################
 
 def solveSudoku(wName):  #creates the fucntion solveSudoku
     W = whichWindow(wName)  #calls whichWindow and assigns the value returned to W
     currentCell=0  #sets currentCell to 0
     rand=0  #sets rand to 0
-    #validate(W)   #calls the function validate and passes in W
+    validate(W)   #calls the function validate and passes in W
     if W == 'R':    #if W if 'R' then
         rand = amount.get()    #retrives the value from the entry box called amount
         if rand=='':    #if that value is nothing then
             error('Please enter the number of cells you want to be solved.')    #calls error wih the right message
             sys.exit    #stops the programe
-        elif rand > 81:     #checks if the number entered is more than the amount of cells on the grid
+        elif int(rand) > 81:     #checks if the number entered is more than the amount of cells on the grid
             error('That number is too large, please enter a smaller one.')  #calls error with the right message
             sys.exit    #stops the programe
         else:
@@ -184,7 +184,7 @@ def solveSudoku(wName):  #creates the fucntion solveSudoku
     for s in range(9):   
         for r in range(3):
             for c in range(3):
-                if sudoku[s][r][c]==0:  #checks if the cell is empty
+                if sudoku[s][r][c]==0:  #checks if the cell is empty 
                     currentCell=currentCell+1   #increments currentCell by 1
                     checkNext(s, r, c, 0, currentCell)  #calls checkNext
                     storeEmpty(s, r, c)     #calls storeEmpty
