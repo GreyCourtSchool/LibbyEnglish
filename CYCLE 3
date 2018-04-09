@@ -5,6 +5,7 @@ sudoku=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,
 #^sets sudoku to an empty array
 emptyCells=[]   #declares the value emptyCells as an empty list
 xCells=[]   #declares the value xCells as an empty list
+acceptVals=[0,1,2,3,4,5,6,7,8,9]
 
 #############################################################################################################
 
@@ -294,16 +295,15 @@ def validate(W):    #creates the validate function and takes 1 arguement
             for c in range(3):  #iterates through each column
                 var=globals()[W+'s'+str(s+1)+'r'+str(r+1)+'c'+str(c+1)].get() #sets var to the current value inside the cell
                 if len(str(var))>1:     #checks the length of var
-                    error('One of your inputs is too big, they can only be one digit') #calls error and passes in the appropraite message
+                    error('One of your inputs is too big, they have to be less than 10') #calls error and passes in the appropraite message
                     sys.exit()  #ends the program
                 if var != '':  #checks if the cell is not empty
                     clues=clues+1   #counts the amount of clues used throughout the sudoku
-                    if W == 'W' or W == 'R':    #checks which window the code was called from
-                        try:    #attempts the next line of code
-                            test = int(var) #tests to see if the value is an int
-                        except ValueError:  #if it enounters ValueError then it outputs the error message
-                            error('Please make sure all of your inputs are numbers') #calls error and passes in the appropraite message
-                            sys.exit()  #ends the program
+                    if W == 'S':
+                        acceptVals.append('X')                     
+                    if var not in acceptVals:
+                        error('Please make sure all of your inputs are numbers') #calls error and passes in the appropraite message
+                        sys.exit()  #ends the program
     if clues < 17:  #checks is the amount of clues is under 17
         error('Not enough clues are provided to be able to solve the sudoku, 17 are needed') #calls error and passes in the appropraite message
         sys.exit()  #ends the program
