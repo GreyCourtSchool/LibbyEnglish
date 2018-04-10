@@ -1,11 +1,11 @@
-import sys  #imports sys
+from sys import exit #imports exit from sys
 from tkinter import *   #imports everyhting from tkinter
-from random import *    #imports everything from random
+from random import randint    #imports randint from random
 sudoku=[[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]],[[0,0,0],[0,0,0],[0,0,0]]]
 #^sets sudoku to an empty array
 emptyCells=[]   #declares the value emptyCells as an empty list
 xCells=[]   #declares the value xCells as an empty list
-acceptVals=[0,1,2,3,4,5,6,7,8,9]
+acceptVals=['0','1','2','3','4','5','6','7','8','9']    #creates a list of accepted values that can be entered into the sudoku
 
 #############################################################################################################
 
@@ -26,15 +26,15 @@ def drawGrid(wName, strName):    #creates drawGrid and assigns whatever has been
     frame_sudokuEntry.grid(row=3, column=0, columnspan=3, rowspan =3)    #positions the new frame
     for x in range (1,4):    #loops through 1 to 3
       for y in range (1,4):     #loops through 1 to 3
-         W=whichWindow(strName)   #calls whichWidnow and assigns the value it reurns to W
+         W=whichWindow(strName)   #calls whichWidnow with strName and assigns the value it reurns to W
          frame_3x3 = Frame(frame_sudokuEntry, background='black') #creates a frame that will be repeated 9 times
          frame_3x3.grid(row=x, column=y, columnspan=1, padx=2, pady=2)  #positions each frame
          squ=(3*x)+y-3 #creates a variable that will count from 1 to 9 with each iteration
-         globals()[W+'s'+str(squ)+'r1c1'] = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg='white') #creates an entry box that'll be cell s1r1c1
+         globals()[W+'s'+str(squ)+'r1c1'] = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg='white') #creates an entry box that'll be cell sXr1c1
          globals()[W+'s'+str(squ)+'r1c1'].grid(row=1, column=1, padx=2, pady=2)   #positions cell in top left
-         globals()[W+'s'+str(squ)+'r1c2'] = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg='white') #creates an entry box that'll be cell s1r1c1
+         globals()[W+'s'+str(squ)+'r1c2'] = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg='white') #creates an entry box that'll be cell sXr1c2
          globals()[W+'s'+str(squ)+'r1c2'].grid(row=1, column=2, padx=2, pady=2)   #positions cell in top middle
-         globals()[W+'s'+str(squ)+'r1c3'] = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg='white') #creates an entry box that'll be cell s1r1c1
+         globals()[W+'s'+str(squ)+'r1c3'] = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg='white') #creates an entry box that'll be cell sXr1c3
          globals()[W+'s'+str(squ)+'r1c3'].grid(row=1, column=3, padx=2, pady=2)   #positions cell in top right
          globals()[W+'s'+str(squ)+'r2c1'] = Entry(frame_3x3, width=2, bd=15, relief=FLAT, bg='white') #continues to create entr boxes respectivley
          globals()[W+'s'+str(squ)+'r2c1'].grid(row=2, column=1, padx=2, pady=2)   #continues to position cells respectivley
@@ -80,42 +80,47 @@ random_text.grid(row=3, column=3)   #positions the text at the specified locatio
  
 ########################################################################################################################
 
-select = Toplevel(menu)
-select.geometry('900x650')
-select.title('Sudoku Solver')
-select.resizable(False, False)
-select.configure(background='LightBlue')
+select = Toplevel(menu) #creates the window 'select' whih stems from menu
+select.geometry('950x650')    #sets the size of the window
+select.title('Sudoku Solver')     #sets the title of the window
+select.resizable(False, False)    #ensures the user cannot resize the grid
+select.configure(background='LightBlue')    #makes the background LightBlue 
  
-selectedFrame= Frame(select, background='LightBlue')
-selectedFrame.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=20)
+selectedFrame= Frame(select, background='LightBlue')  #creates a frame and sets its location and background colour
+selectedFrame.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=20) #sets its position eithing the window
 title = Label(selectedFrame, text = 'Solve Selected Cell', relief = 'flat', font = ('Ariel', 30), background = 'LightBlue', width = 35, height = 2).grid(row=0, column=2, columnspan=3, rowspan=3)
-drawGrid(selectedFrame,'selectedFrame')
+#^creates the title, sets its font, font size, background colour and size
+drawGrid(selectedFrame,'selectedFrame') #calls draw grid and passing on the frame adress and frame name
 guide = Label(selectedFrame, text = 'This feature will solve as many cells as you want. Please enter in all of the numbers that you know and then put an \'X\' inside each cell that you would like to be solved. Once you have entered in everything, click the Solve Cells button. If the sudoku cannot be solved or hasn\'t been entered properly, an error message will be displayed. If you would like to use a different function, use the main menu button to navigate to it.', relief = 'flat', font = 'Ariel', background = 'LightBlue', width = 30, wraplength=250).grid(row=3, column=3, columnspan=2)
-solve_button = Button(selectedFrame, text='Solve Cells', width=20, command=lambda:solveSudoku('selectedFrame'))
-solve_button.grid(row=5, column=3)
-mainmenu_button = Button(selectedFrame, text='Main Menu', width=20, command=lambda:changeWindow(select, menu, 'menu'))
-mainmenu_button.grid(row=5, column=4)
+#^creates the text block, sets its font, balckground colour, size, wraplength and relief
+solve_button = Button(selectedFrame, text='Solve Cells', width=20, command=lambda:solveSudoku('selectedFrame'))#creates the button, sets the attributes and function
+solve_button.grid(row=5, column=3)  #positions solve_button
+mainmenu_button = Button(selectedFrame, text='Main Menu', width=20, command=lambda:changeWindow(select, menu, 'menu'))#creates the button, sets the attributes and function
+mainmenu_button.grid(row=5, column=4)   #positions mainmenu_button
 
 ########################################################################################################
 
-random = Toplevel(menu)
-random.geometry('950x650')
-random.title('Sudoku Solver')
-random.resizable(False, False)
-random.configure(background='LightBlue')
+random = Toplevel(menu) #creates the window 'random' whih stems from menu
+random.geometry('950x650')    #sets the size of the window
+random.title('Sudoku Solver')     #sets the title of the window
+random.resizable(False, False)    #ensures the user cannot resize the grid
+random.configure(background='LightBlue')    #makes the background LightBlue  
 
-randomFrame= Frame(random, background='LightBlue')
-randomFrame.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=20)
+randomFrame= Frame(random, background='LightBlue')  #creates a frame and sets its location and background colour
+randomFrame.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=20)   #sets its position eithing the window
 title = Label(randomFrame, text = 'Solve Random Cells', relief = 'flat', font=('Ariel', 30), background = 'LightBlue', width = 35, height = 2).grid(row=0, column=2, columnspan=3, rowspan=3)
-drawGrid(randomFrame, 'randomFrame')
+#^creates the title, sets its font, font size, background colour and size
+drawGrid(randomFrame, 'randomFrame')    #calls draw grid and passing on the frame adress and frame name
 guide = Label(randomFrame, text = 'This feature will solve as many random cells as you want. Please enter in all of the numbers that you know and then enter the amount of cells that you would like to be solved into the text box. Once you have entered in everything, click the Solve Random Cells button. If the sudoku cannot be solved or something hasn\'t been entered properly, an error message will be displayed. If you would like to use a different function, use the main menu button to navigate to it.', relief = 'flat', font = 'Ariel', background = 'LightBlue', width = 30, wraplength=250).grid(row=3, column=3, columnspan=2)
+#^creates the text block, sets its font, balckground colour, size, wraplength and relief
 text = Label(randomFrame, text = 'How many cells do you want to solve?', relief = 'flat', font = 'Ariel', background = 'LightBlue', width = 30).grid(row=4, column=3)
-amount = Entry(randomFrame, width=2)
-amount.grid(row=4, column=4)
-solve_button = Button(randomFrame, text='Solve Random Cells', width=20, command=lambda:solveSudoku('randomFrame'))
-solve_button.grid(row=5, column=3)
-mainmenu_button = Button(randomFrame, text='Main Menu', width=20, command=lambda:changeWindow(random, menu, 'menu'))
-mainmenu_button.grid(row=5, column=4)
+#^creates the text block to caption the new entry box, sets its font, balckground colour, size, wraplength and relief
+amount = Entry(randomFrame, width=2)    #creates an entry box callled amount and sets its width
+amount.grid(row=4, column=4)    #positions the entry box amount
+solve_button = Button(randomFrame, text='Solve Random Cells', width=20, command=lambda:solveSudoku('randomFrame'))#creates the button, sets the attributes and function
+solve_button.grid(row=5, column=3)  #positions solve_button
+mainmenu_button = Button(randomFrame, text='Main Menu', width=20, command=lambda:changeWindow(random, menu, 'menu'))#creates the button, sets the attributes and function
+mainmenu_button.grid(row=5, column=4)   #positions mainmenu_button
 
 #####################################################################################################################
  
@@ -165,12 +170,10 @@ def solveSudoku(wName):  #creates the fucntion solveSudoku
         rand = amount.get()    #retrives the value from the entry box called amount
         if rand=='':    #if that value is nothing then
             error('Please enter the number of cells you want to be solved.')    #calls error wih the right message
-            sys.exit    #stops the programe
+            exit    #stops the programe
         elif int(rand) > 81:     #checks if the number entered is more than the amount of cells on the grid
             error('That number is too large, please enter a smaller one.')  #calls error with the right message
-            sys.exit    #stops the programe
-        else:
-            rand=int(rand)
+            exit    #stops the programe
     for s in range(9):   
         for r in range(3):
             for c in range(3):
@@ -182,14 +185,19 @@ def solveSudoku(wName):  #creates the fucntion solveSudoku
                     xCells.append(coordinates)  #adds that variable to list xCells
                 else:   #all other cells must have a number inside them
                     sudoku[s][r][c]=int(var)    #assigns the respective item in the sudoku array to the integer withing the current cell
-    for s in range(9):   
-        for r in range(3):
-            for c in range(3):
-                if sudoku[s][r][c]==0:  #checks if the cell is empty 
-                    currentCell=currentCell+1   #increments currentCell by 1
-                    checkNext(s, r, c, 0, currentCell)  #calls checkNext
-                    storeEmpty(s, r, c)     #calls storeEmpty
-    printSudoku(W, rand)   #calls function printSudoku
+    try:    #attempts the main bit of code
+        for s in range(9):   
+            for r in range(3):
+                for c in range(3):
+                    if sudoku[s][r][c]==0:  #checks if the cell is empty 
+                        currentCell=currentCell+1   #increments currentCell by 1
+                        checkNext(s, r, c, 0, currentCell)  #calls checkNext
+                        storeEmpty(s, r, c)     #calls storeEmpty
+        printSudoku(W, int(rand))   #calls function printSudoku and passing in W and the integer value of rand
+    except RecursionError:  #if it encounters a recursion error
+        error('This sudoku cannot be solved, please check your inputs') #calls error with appropriate mesage
+        exit    #ends the code
+    
 
 ############################################################################################################################
 
@@ -296,17 +304,17 @@ def validate(W):    #creates the validate function and takes 1 arguement
                 var=globals()[W+'s'+str(s+1)+'r'+str(r+1)+'c'+str(c+1)].get() #sets var to the current value inside the cell
                 if len(str(var))>1:     #checks the length of var
                     error('One of your inputs is too big, they have to be less than 10') #calls error and passes in the appropraite message
-                    sys.exit()  #ends the program
+                    exit()  #ends the program
                 if var != '':  #checks if the cell is not empty
                     clues=clues+1   #counts the amount of clues used throughout the sudoku
-                    if W == 'S':
-                        acceptVals.append('X')                     
-                    if var not in acceptVals:
+                    if W == 'S':    
+                        acceptVals.append('X')  #adds the value X to the list acceptVals
+                    if str(var) not in acceptVals:   #if the value of var is not found in acceptVals
                         error('Please make sure all of your inputs are numbers') #calls error and passes in the appropraite message
-                        sys.exit()  #ends the program
+                        exit()  #ends the program
     if clues < 17:  #checks is the amount of clues is under 17
         error('Not enough clues are provided to be able to solve the sudoku, 17 are needed') #calls error and passes in the appropraite message
-        sys.exit()  #ends the program
+        exit()  #ends the program
 
 #####################################################################################################################
 
@@ -315,7 +323,7 @@ def printSudoku(W, rand):  #creates the function printSudoku
         if len(xCells)==0:   #checks if xCells is empty
             error('Please enter an X into one of the cells') #calls error and passes appropriate message
         else:
-            for x in range(len(xCells)):    #iterates through for the length of teh xCells list
+            for x in range(len(xCells)):    #iterates through for the length of the xCells list
                 s=int(xCells[x][0])  #assigns the first char in the item in the array to s
                 r=int(xCells[x][1])  #assigns the second char in the item in the array to r
                 c=int(xCells[x][2])  #assigns the third char in the item in the array to c
@@ -327,7 +335,7 @@ def printSudoku(W, rand):  #creates the function printSudoku
                 for c in range(3):                          
                     globals()[W+'s'+str(s+1)+'r'+str(r+1)+'c'+str(c+1)].delete(0, END)    #this deletes any value that was originally in the cells
                     globals()[W+'s'+str(s+1)+'r'+str(r+1)+'c'+str(c+1)].insert(0, sudoku[s][r][c])    #inserts the completed sudoku into the grid
-    elif W == 'R':    #checks if came from select cell window
+    elif W == 'R':    #checks if came from selectcell window
         for x in range(rand): #repeats for as many times as the value for rand
             y=randint(0,len(emptyCells)-1)  #generates a random number to be used as a pointer
             s=int(emptyCells[y][0]) #takes the first char of the item in the list and assigns to s
@@ -358,4 +366,3 @@ select.withdraw()   #closes the window 'select'
 random.withdraw()   #closes the window 'random'
 popup.withdraw()  #closes the window 'popup'
 mainloop()  #starts the code which will load all the pages
- 
