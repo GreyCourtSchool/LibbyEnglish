@@ -59,11 +59,11 @@ menu.configure(background='LightBlue') #makes the background LightBlue
 
 mainFrame = Frame(menu, background='LightBlue')    #creates a framw within 'menu' and sets background to LightBlue
 mainFrame.grid(row=0, column=0, columnspan=10, rowspan=6, padx=70, pady=50) #positions frame, sets how many columns and rows there will be
-wholeSudoku_button = Button(mainFrame, text='Solve Whole Sudoku', width=20, command=lambda:changeWindow(menu, full, 'full')).grid(row=1, column=1, pady=30)
+wholeSudoku_button = Button(mainFrame, text='Solve Whole Sudoku', width=20, command=lambda:changeWindow(menu, 'menu', full, 'full')).grid(row=1, column=1, pady=30)
 #^creates a button, sets its size and function (passing in menu and full) and positions it at the coordinates identified
-selectCell_button = Button(mainFrame, text='Solve Selected Cells', width=20, command=lambda:changeWindow(menu, select, 'select')).grid(row=2, column=1, pady=30)
+selectCell_button = Button(mainFrame, text='Solve Selected Cells', width=20, command=lambda:changeWindow(menu,  'menu', select, 'select')).grid(row=2, column=1, pady=30)
 #^creates a button, sets its size and function (passing in menu and single) and positions it at the coordinates identified
-randomcell_button = Button(mainFrame, text='Solve Random Cells', width=20, command=lambda:changeWindow(menu, random, 'random')).grid(row=3, column=1, pady=30)
+randomcell_button = Button(mainFrame, text='Solve Random Cells', width=20, command=lambda:changeWindow(menu, 'menu', random, 'random')).grid(row=3, column=1, pady=30)
 #^creates a button, sets its size and function (passing in menu and random) and positions it at the coordinates identified
 title = Label(mainFrame, text = 'Sudoku Solver', font =('Ariel', 30),relief = 'flat', background = 'LightBlue', width = 35, height = 2)
 #^creates the title, sets its font, font size, relife, background colour and size
@@ -95,7 +95,7 @@ guide = Label(selectedFrame, text = 'This feature will solve as many cells as yo
 #^creates the text block, sets its font, balckground colour, size, wraplength and relief
 solve_button = Button(selectedFrame, text='Solve Cells', width=20, command=lambda:solveSudoku('selectedFrame'))#creates the button, sets the attributes and function
 solve_button.grid(row=5, column=3)  #positions solve_button
-mainmenu_button = Button(selectedFrame, text='Main Menu', width=20, command=lambda:changeWindow(select, menu, 'menu'))#creates the button, sets the attributes and function
+mainmenu_button = Button(selectedFrame, text='Main Menu', width=20, command=lambda:changeWindow(select, 'select', menu, 'menu'))#creates the button, sets the attributes and function
 mainmenu_button.grid(row=5, column=4)   #positions mainmenu_button
 
 ########################################################################################################
@@ -119,7 +119,7 @@ amount = Entry(randomFrame, width=2)    #creates an entry box callled amount and
 amount.grid(row=4, column=4)    #positions the entry box amount
 solve_button = Button(randomFrame, text='Solve Random Cells', width=20, command=lambda:solveSudoku('randomFrame'))#creates the button, sets the attributes and function
 solve_button.grid(row=5, column=3)  #positions solve_button
-mainmenu_button = Button(randomFrame, text='Main Menu', width=20, command=lambda:changeWindow(random, menu, 'menu'))#creates the button, sets the attributes and function
+mainmenu_button = Button(randomFrame, text='Main Menu', width=20, command=lambda:changeWindow(random, 'random', menu, 'menu'))#creates the button, sets the attributes and function
 mainmenu_button.grid(row=5, column=4)   #positions mainmenu_button
 
 #####################################################################################################################
@@ -141,7 +141,7 @@ guide = Label(wholeSudoku, relief = 'flat', font = 'Ariel', background = 'LightB
 guide.grid(row=3, column=3, columnspan=2)    #positions the text
 solve_button = Button(wholeSudoku, text='Solve Sudoku', width=20, command=lambda:solveSudoku('wholeSudoku'))  #creates the button, sets the attributes and function
 solve_button.grid(row=5, column=3)   #positions the button
-mainmenu_button = Button(wholeSudoku, text='Main Menu', width=20, command=lambda:changeWindow(full, menu, 'menu'))#creates the button, sets the attributes and function
+mainmenu_button = Button(wholeSudoku, text='Main Menu', width=20, command=lambda:changeWindow(full, 'full', menu, 'menu'))#creates the button, sets the attributes and function
 mainmenu_button.grid(row=5, column=4)    #positions the button
 
 #############################################################################################################
@@ -347,10 +347,10 @@ def printSudoku(W, rand):  #creates the function printSudoku
                 
 #############################################################################################################
  
-def changeWindow(self, window, strWindow): #creates the function changeWindow
+def changeWindow(self, strSelf, window, strWindow): #creates the function changeWindow
     self.withdraw()  #closes current window
     window.state('normal')   #brings whichever window is passed second back up
-    if str(self) == '.':    #checks if leavign the menu screen
+    if strSelf == 'menu':    #checks if leavign the menu screen
         W=whichWindow(strWindow)   #assigns the value from whichWindow to W
         for s in range(9):
             for r in range(3):
